@@ -1,0 +1,395 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+  }
+}
+
+/* ============================================================
+   3D CARD FLIP
+   ============================================================ */
+.perspective-1000 { perspective: 1200px; }
+.perspective-2000 { perspective: 2000px; }
+.transform-style-3d { transform-style: preserve-3d; }
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 { transform: rotateY(180deg); }
+
+/* ============================================================
+   GLASSMORPHISM
+   ============================================================ */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.light .glass-panel {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+}
+
+.glass-card {
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(139, 92, 246, 0.04) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+.light .glass-card {
+  background: linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(248,250,252,0.85) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226,232,240,0.95);
+}
+
+/* ============================================================
+   ANIMATED BACKGROUND MESH
+   ============================================================ */
+.bg-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 20% -10%, rgba(99,102,241,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 110%, rgba(139,92,246,0.15) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 60% 50%, rgba(59,130,246,0.08) 0%, transparent 50%);
+  animation: meshShift 12s ease-in-out infinite alternate;
+}
+
+@keyframes meshShift {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+/* ============================================================
+   FLOATING ORB DECORATIONS
+   ============================================================ */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: orbFloat 8s ease-in-out infinite;
+  pointer-events: none;
+}
+.orb-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, #6366f1, transparent);
+  top: -200px; left: -150px;
+  animation-delay: 0s;
+}
+.orb-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #8b5cf6, transparent);
+  bottom: -150px; right: -100px;
+  animation-delay: -4s;
+}
+.orb-3 {
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, #06b6d4, transparent);
+  top: 40%; left: 60%;
+  animation-delay: -2s;
+  animation-duration: 10s;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50%       { transform: translateY(-30px) scale(1.05); }
+}
+
+/* ============================================================
+   GRADIENT TEXT
+   ============================================================ */
+.gradient-text {
+  background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 30%, #c084fc 60%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  background-size: 200% 200%;
+  animation: gradientShift 5s ease infinite;
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* ============================================================
+   SHIMMER BUTTON EFFECT
+   ============================================================ */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: skewX(-20deg);
+  transition: none;
+}
+.btn-shimmer:hover::after {
+  animation: shimmerSlide 0.6s ease forwards;
+}
+@keyframes shimmerSlide {
+  from { left: -100%; }
+  to   { left: 160%; }
+}
+
+/* ============================================================
+   CARD HOVER TILT (3D CSS)
+   ============================================================ */
+.card-3d {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s ease;
+  transform-style: preserve-3d;
+}
+.card-3d:hover {
+  transform: perspective(800px) rotateX(-3deg) rotateY(3deg) scale(1.02);
+  box-shadow: 0 30px 60px rgba(99, 102, 241, 0.2), 0 0 0 1px rgba(99, 102, 241, 0.15);
+}
+
+/* ============================================================
+   FLASHCARD SPECIFIC GLOW
+   ============================================================ */
+.flashcard-glow {
+  box-shadow:
+    0 0 0 1px rgba(99,102,241,0.2),
+    0 20px 60px rgba(99,102,241,0.15),
+    0 0 80px rgba(139,92,246,0.08) inset;
+  transition: box-shadow 0.4s ease;
+}
+.flashcard-glow:hover {
+  box-shadow:
+    0 0 0 1px rgba(99,102,241,0.4),
+    0 30px 80px rgba(99,102,241,0.25),
+    0 0 120px rgba(139,92,246,0.12) inset;
+}
+.flashcard-answer-glow {
+  box-shadow:
+    0 0 0 1px rgba(16,185,129,0.3),
+    0 20px 60px rgba(16,185,129,0.12),
+    0 0 80px rgba(5,150,105,0.06) inset;
+}
+
+/* ============================================================
+   QUIZ OPTION ANIMATIONS
+   ============================================================ */
+.quiz-option {
+  transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: left center;
+}
+.quiz-option:hover:not(:disabled) {
+  transform: translateX(6px);
+}
+.quiz-option-selected {
+  transform: translateX(6px) scale(1.01);
+}
+
+/* ============================================================
+   SCORE COUNTER ANIMATION
+   ============================================================ */
+@keyframes scoreReveal {
+  0%   { transform: scale(0.5) rotateY(180deg); opacity: 0; }
+  60%  { transform: scale(1.1) rotateY(0deg); opacity: 1; }
+  100% { transform: scale(1) rotateY(0deg); opacity: 1; }
+}
+.score-reveal {
+  animation: scoreReveal 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+}
+
+/* ============================================================
+   PROGRESS BAR ANIMATED STRIPES
+   ============================================================ */
+.progress-bar-animated {
+  background-size: 30px 30px;
+  background-image: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.08) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.08) 75%,
+    transparent 75%,
+    transparent
+  );
+  animation: progressStripe 1.2s linear infinite;
+}
+@keyframes progressStripe {
+  from { background-position: 0 0; }
+  to   { background-position: 60px 0; }
+}
+
+/* ============================================================
+   SKELETON LOADING SHIMMER
+   ============================================================ */
+.skeleton-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
+  background-size: 400% 100%;
+  animation: skeletonShimmer 1.8s ease-in-out infinite;
+}
+@keyframes skeletonShimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* ============================================================
+   FADE & SLIDE ENTRANCE ANIMATIONS
+   ============================================================ */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInScale {
+  from { opacity: 0; transform: scale(0.94); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-up     { animation: fadeInUp    0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+.animate-fade-down   { animation: fadeInDown  0.4s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+.animate-fade-scale  { animation: fadeInScale 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+.animate-slide-right { animation: slideInRight 0.5s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+
+.anim-delay-100 { animation-delay: 0.1s; opacity: 0; }
+.anim-delay-200 { animation-delay: 0.2s; opacity: 0; }
+.anim-delay-300 { animation-delay: 0.3s; opacity: 0; }
+.anim-delay-400 { animation-delay: 0.4s; opacity: 0; }
+.anim-delay-500 { animation-delay: 0.5s; opacity: 0; }
+
+/* ============================================================
+   GLOW BADGE
+   ============================================================ */
+.badge-glow {
+  box-shadow: 0 0 12px rgba(99,102,241,0.4);
+}
+.badge-glow-green {
+  box-shadow: 0 0 12px rgba(16,185,129,0.4);
+}
+.badge-glow-rose {
+  box-shadow: 0 0 12px rgba(244,63,94,0.4);
+}
+
+/* ============================================================
+   NEON LINE DIVIDER
+   ============================================================ */
+.neon-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.5) 50%, transparent 100%);
+}
+
+/* ============================================================
+   PARTICLE DOTS (decorative static)
+   ============================================================ */
+.dot-grid {
+  background-image: radial-gradient(rgba(99,102,241,0.15) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* ============================================================
+   CHIP HOVER EFFECT
+   ============================================================ */
+.topic-chip {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.topic-chip::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(99,102,241,0.15), rgba(139,92,246,0.1));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.topic-chip:hover::before {
+  opacity: 1;
+}
+.topic-chip:hover {
+  transform: translateY(-2px) scale(1.04);
+  border-color: rgba(99,102,241,0.6);
+  box-shadow: 0 8px 24px rgba(99,102,241,0.2);
+}
+
+/* ============================================================
+   NAVBAR ACTIVE PILL
+   ============================================================ */
+.nav-active-pill {
+  position: relative;
+}
+.nav-active-pill::before {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 50%; transform: translateX(-50%);
+  width: 60%; height: 2px;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(99,102,241,0.6);
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #6366f1, #8b5cf6);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover { background: #818cf8; }
+
+/* ============================================================
+   RESULT RING
+   ============================================================ */
+@keyframes ringFill {
+  from { stroke-dashoffset: 339.292; }
+  to   { stroke-dashoffset: var(--target-offset); }
+}
+.result-ring circle {
+  animation: ringFill 1.4s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  animation-delay: 0.3s;
+}
+
+/* ============================================================
+   TOOLTIP FADE
+   ============================================================ */
+.tooltip {
+  position: relative;
+}
+.tooltip::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%; transform: translateX(-50%);
+  white-space: nowrap;
+  background: rgba(15,23,42,0.95);
+  color: #e2e8f0;
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(99,102,241,0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.tooltip:hover::after { opacity: 1; }
